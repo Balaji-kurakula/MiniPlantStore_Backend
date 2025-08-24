@@ -18,10 +18,11 @@ connectDB();
 app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? process.env.FRONTEND_URL?.split(',') || []
+    ? [...(process.env.FRONTEND_URL?.split(',') || []), "https://urvannplantify.vercel.app"]
     : ['http://localhost:3000', 'http://localhost:5173'],
   credentials: true
 }));
+
 
 // Rate limiting
 const limiter = rateLimit({
