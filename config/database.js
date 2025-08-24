@@ -6,13 +6,13 @@ const connectDB = async () => {
     mongoose.set('strictQuery', false);
     
     console.log('🔄 Connecting to MongoDB...');
-    console.log('📍 MongoDB URI:', process.env.MONGODB_URI?.replace(/\/\/.*@/, '//***:***@')); // Log URI without credentials
+    console.log('📍 MongoDB URI:', process.env.MONGODB_URI?.replace(/\/\/.*@/, '//***:***@'));
     
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: 'urvann',
-      serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds
+      dbName: 'plantstore',
+      serverSelectionTimeoutMS: 30000, // 30 second timeout
       socketTimeoutMS: 45000, // Socket timeout
-      family: 4 // Use IPv4, skip trying IPv6
+      family: 4 // Use IPv4
     });
     
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
@@ -26,7 +26,7 @@ const connectDB = async () => {
       code: error.code,
       codeName: error.codeName
     });
-    process.exit(1);
+    throw error; // Let the retry logic handle this
   }
 };
 
