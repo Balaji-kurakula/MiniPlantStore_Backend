@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Cart = require('../models/Cart');
 const Plant = require('../models/Plant');
+const mongoose = require('mongoose');
 
 // @route   GET /api/cart/:userId
 // @desc    Get user's cart

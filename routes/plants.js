@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Plant = require('../models/Plant');
+const mongoose = require('mongoose')
+
+const isValidObjectId = (id) => {
+  return mongoose.Types.ObjectId.isValid(id) && (String(new mongoose.Types.ObjectId(id)) === id);
+};
 
 // @route   GET /api/plants
 // @desc    Get all plants with optional search and filters
