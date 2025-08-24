@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const wishlistSchema = new mongoose.Schema({
   userId: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   plants: [{
     plantId: {
@@ -25,6 +26,6 @@ const wishlistSchema = new mongoose.Schema({
 });
 
 // Compound index for efficient queries
-wishlistSchema.index({ userId: 1, 'plants.plantId': 1 });
+wishlistSchema.index({ 'plants.plantId': 1 });
 
 module.exports = mongoose.model('Wishlist', wishlistSchema);

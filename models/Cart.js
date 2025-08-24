@@ -49,8 +49,8 @@ cartSchema.pre('save', function() {
   this.totalAmount = this.items.reduce((total, item) => total + (item.price * item.quantity), 0);
 });
 
-// Index for efficient queries
-cartSchema.index({ userId: 1 });
-cartSchema.index({ 'items.plantId': 1 });
+// // Index for efficient queries
+// cartSchema.index({ userId: 1 });
+// cartSchema.index({ 'items.plantId': 1 });
 
 module.exports = mongoose.model('Cart', cartSchema);
