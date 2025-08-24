@@ -11,6 +11,8 @@ const cartRoutes = require('./routes/cart');
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 // Connect to database
 connectDB();
 
@@ -26,8 +28,12 @@ app.use(cors({
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: process.env.NODE_ENV === 'production' ? 200 : 100
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: process.env.NODE_ENV === 'production' ? 200 : 100,
+  message: {
+    success: false,
+    message: 'Too many requests from this IP, please try again later.'
+  }
 });
 app.use('/api/', limiter);
 
