@@ -12,10 +12,7 @@ const isValidObjectId = (id) => {
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const { search, category, inStock, page = 1, limit = 20, sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
-    
-    let query = {};
-
+    // Check if mongoose is connected
     if (mongoose.connection.readyState !== 1) {
       console.error('❌ MongoDB not connected. ReadyState:', mongoose.connection.readyState);
       return res.status(503).json({
@@ -24,63 +21,20 @@ router.get('/', async (req, res) => {
         connectionState: mongoose.connection.readyState
       });
     }
+    
     console.log('🔍 Fetching plants from database...');
     
-    const plants1 = await Plant.find({})
+    const plants = await Plant.find({})
       .sort({ createdAt: -1 })
-      .timeout(20000) // 20 second timeout for this query
+      .maxTimeMS(20000) // ✅ Use maxTimeMS instead of timeout
       .exec();
       
-    console.log(`✅ Found ${plants1.length} plants`);
+    console.log(`✅ Found ${plants.length} plants`);
     
     res.json({
       success: true,
       data: plants,
       count: plants.length
-    });
-
-
-    // Search functionality
-    if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { categories: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { scientificName: { $regex: search, $options: 'i' } }
-      ];
-    }
-    
-    // Category filter
-    if (category && category !== 'all') {
-      query.categories = { $in: [category] };
-    }
-    
-    // Stock filter
-    if (inStock === 'true') {
-      query.isAvailable = true;
-    }
-    
-    // Build sort object
-    const sortObj = {};
-    sortObj[sortBy] = sortOrder === 'asc' ? 1 : -1;
-    
-    const plants = await Plant.find(query)
-      .sort(sortObj)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .exec();
-      
-    const total = await Plant.countDocuments(query);
-    
-    res.json({
-      success: true,
-      data: plants,
-      pagination: {
-        current: parseInt(page),
-        total: Math.ceil(total / limit),
-        count: plants.length,
-        totalItems: total
-      }
     });
   } catch (error) {
     console.error('❌ Get plants error:', error);
@@ -91,6 +45,7 @@ router.get('/', async (req, res) => {
     });
   }
 });
+
 
 // @route   GET /api/plants/:id
 // @desc    Get single plant by ID
