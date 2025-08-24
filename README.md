@@ -45,13 +45,11 @@ Before you begin, ensure you have:
 git clone https://github.com/yourusername/plant-store-backend.git
 cd plant-store-backend
 
-text
 
 ### 2. Install Dependencies
 
 npm install
 
-text
 
 ### 3. Environment Variables
 
@@ -70,7 +68,6 @@ FRONTEND_URL=http://localhost:5173
 Security (Optional)
 JWT_SECRET=your-jwt-secret-key
 
-text
 
 ### 4. Setup Database
 
@@ -80,13 +77,11 @@ npm run setup-db
 Seed with sample data
 npm run seed
 
-text
 
 ### 5. Start Development Server
 
 npm run dev
 
-text
 
 The API will be available at `http://localhost:5000`
 
@@ -121,14 +116,11 @@ backend/
 ├── server.js # Main application file
 └── package.json
 
-text
-
 ## 🛣️ API Endpoints
 
 ### Health Check
 GET /api/health
 
-text
 
 ### Plants
 GET /api/plants # Get all plants (with query filters)
@@ -137,14 +129,12 @@ POST /api/plants # Create new plant
 PUT /api/plants/:id # Update plant
 DELETE /api/plants/:id # Delete plant
 
-text
 
 ### Wishlist
 GET /api/wishlist/:userId # Get user's wishlist
 POST /api/wishlist/:userId # Add plant to wishlist
 DELETE /api/wishlist/:userId/:plantId # Remove from wishlist
 
-text
 
 ### Cart
 GET /api/cart/:userId # Get user's cart
@@ -153,7 +143,6 @@ PUT /api/cart/:userId/:plantId # Update cart item quantity
 DELETE /api/cart/:userId/:plantId # Remove item from cart
 DELETE /api/cart/:userId # Clear entire cart
 
-text
 
 ## 📊 Database Schema
 
@@ -175,7 +164,6 @@ createdAt: Date, // Creation timestamp
 updatedAt: Date // Last update
 }
 
-text
 
 ### Wishlist Model
 {
@@ -189,7 +177,6 @@ createdAt: Date,
 updatedAt: Date
 }
 
-text
 
 ### Cart Model
 {
@@ -206,7 +193,6 @@ createdAt: Date,
 updatedAt: Date
 }
 
-text
 
 ## 🔧 Configuration
 
@@ -229,7 +215,6 @@ socketTimeoutMS: 45000,
 family: 4
 }
 
-text
 
 ### Security Configuration
 
@@ -248,7 +233,6 @@ NODE_ENV=production
 MONGODB_URI=your_atlas_connection_string
 FRONTEND_URL=https://your-frontend.vercel.app
 
-text
 3. **Deploy automatically on push to main**
 
 ### Manual Deployment
@@ -259,7 +243,6 @@ npm install --production
 Start server
 npm start
 
-text
 
 ## 🧪 API Testing
 
@@ -276,7 +259,6 @@ curl -X POST https://your-api.railway.app/api/wishlist/user123
 -H "Content-Type: application/json"
 -d '{"plantId": "plant_id_here", "notes": "Love this plant!"}'
 
-text
 
 ### Using Postman
 
@@ -306,22 +288,18 @@ Check connection string format
 mongodb+srv://username:password@cluster.mongodb.net/plantstore
 
 Verify IP whitelist in MongoDB Atlas
-text
 
 **Port Already in Use:**
-Find process using port 5000
-lsof -i :5000
+Find the process using port 5000
+lsof -i:5000
 
 Kill the process
 kill -9 PID
-
-text
 
 **Environment Variables:**
 Verify .env file exists and has correct values
 cat .env
 
-text
 
 ## 🤝 Contributing
 
@@ -348,7 +326,7 @@ The API provides health check endpoints for monitoring:
 GET /api/health # Basic health check
 GET /api/test-db # Database connectivity check
 
-text
+
 
 ### Logging
 
