@@ -51,6 +51,33 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const mongoose = require('mongoose');
+    const Plant = require('./models/Plant');
+    
+    const connectionState = mongoose.connection.readyState;
+    const plantCount = await Plant.countDocuments();
+    
+    res.json({
+      success: true,
+      database: {
+        connected: connectionState === 1,
+        readyState: connectionState,
+        host: mongoose.connection.host,
+        name: mongoose.connection.name,
+        plantCount: plantCount
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      connectionState: mongoose.connection.readyState
+    });
+  }
+});
+
 // API Routes
 app.use('/api/plants', plantRoutes);
 app.use('/api/wishlist', wishlistRoutes);
@@ -91,6 +118,9 @@ process.on('SIGINT', () => {
   console.log('SIGINT received, shutting down gracefully');
   process.exit(0);
 });
+
+// Test database connection endpoint
+
 
 
 // Add debug logging after importing routes

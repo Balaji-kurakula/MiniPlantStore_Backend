@@ -10,7 +10,31 @@ router.get('/', async (req, res) => {
     const { search, category, inStock, page = 1, limit = 20, sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
     
     let query = {};
+
+    if (mongoose.connection.readyState !== 1) {
+      console.error('❌ MongoDB not connected. ReadyState:', mongoose.connection.readyState);
+      return res.status(503).json({
+        success: false,
+        message: 'Database connection not available',
+        connectionState: mongoose.connection.readyState
+      });
+    }
+    console.log('🔍 Fetching plants from database...');
     
+    const plants1 = await Plant.find({})
+      .sort({ createdAt: -1 })
+      .timeout(20000) // 20 second timeout for this query
+      .exec();
+      
+    console.log(`✅ Found ${plants1.length} plants`);
+    
+    res.json({
+      success: true,
+      data: plants,
+      count: plants.length
+    });
+
+
     // Search functionality
     if (search) {
       query.$or = [
@@ -54,11 +78,11 @@ router.get('/', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Get plants error:', error);
+    console.error('❌ Get plants error:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching plants',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });
   }
 });
