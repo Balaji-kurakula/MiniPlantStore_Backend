@@ -1,0 +1,35 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "setup-db": "node scripts/setupDatabase.js",
+    "seed": "node seeders/plantSeeder.js",
+    "seed-dev": "NODE_ENV=development node seeders/plantSeeder.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Backend for Urvann Plant Store",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.18.0",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "nodemon": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
